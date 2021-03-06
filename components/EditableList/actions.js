@@ -1,4 +1,20 @@
 import { useAppState } from "components/StateProvider";
+export const init = async () => {
+  const data = await new Promise(resolve => {
+    setTimeout(() => {
+      resolve({
+        agenda: {
+          items: [
+            {
+              text: "hello"
+            }
+          ]
+        }
+      });
+    }, 300);
+  });
+  return data;
+};
 export const useAdd = () => {
   const [state, setState] = useAppState();
   return async text => {

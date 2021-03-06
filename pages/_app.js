@@ -4,7 +4,7 @@ import StateProvider from "components/StateProvider";
 class MyApp extends App {
   initialState = {
     agenda: {
-      items: [{ text: "hello" }]
+      items: []
     }
   };
   static async getInitialProps({ Component, ctx }) {
