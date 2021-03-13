@@ -1,9 +1,15 @@
 import React, { createContext, useContext, useState } from "react";
-const StateProvider = ({ initialState, children }) => (
-  <StateContext.Provider value={useState(initialState)}>
-    {children}
-  </StateContext.Provider>
-);
+import { getActions } from "./actions";
+const StateProvider = ({ initialState, children }) => {
+  const [state, setState] = useState(initialState);
+  const context = {
+    state,
+    actions: getActions(state, setState)
+  };
+  return (
+    <StateContext.Provider value={context}>{children}</StateContext.Provider>
+  );
+};
 export const StateContext = createContext();
-export const useAppState = () => useContext(StateContext);
+export const useAppContext = () => useContext(StateContext);
 export default StateProvider;

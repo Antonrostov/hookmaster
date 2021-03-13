@@ -1,5 +1,5 @@
-import { useAppState } from "components/StateProvider";
+import { useAppContext } from "components/StateProvider";
 export default function GlanceItems() {
-  const [appState] = useAppState();
-  return <div>Total items: {appState.agenda.items.length}</div>;
+  const { state } = useAppContext();
+  return <div>Total items: {state.agenda.items.length}</div>;
 }
