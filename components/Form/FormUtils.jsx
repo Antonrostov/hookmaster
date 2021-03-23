@@ -13,16 +13,20 @@ export function useValidator(validate, value) {
     return null;
   }
 }
-export function useChangeHandler(props) {
+export function useHandler(props) {
   const context = useContext(FormContext);
   if (typeof context === "undefined") {
     const [state, setState] = useState("");
+    function onChange(e) {
+      setState(e.target.value);
+      if (typeof props.onChange === "function") {
+        props.onChange(e);
+      }
+    }
     return {
-      onChange(e) {
-        setState(e.target.value);
-        if (typeof props.onChange === "function") {
-          props.onChange(e);
-        }
+      onChange,
+      onSetValue(value) {
+        onChange({ target: { value } });
       },
       value: state
     };
@@ -30,9 +34,13 @@ export function useChangeHandler(props) {
     if (typeof props.name === "undefined") {
       throw new Error("You must supply a 'name' prop if you are using <Form>");
     }
+    function onChange(e) {
+      context.onChange(e);
+    }
     return {
-      onChange(e) {
-        context.onChange(e);
+      onChange,
+      onSetValue(value) {
+        onChange({ target: { value, name: props.name } });
       },
       value: context.data[props.name] || ""
     };
