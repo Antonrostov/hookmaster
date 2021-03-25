@@ -2,13 +2,20 @@ import EditableList from "components/EditableList";
 import GlanceItems from "components/GlanceItems";
 import Form from "components/Form";
 import FormInput from "components/FormInput";
+import FormCheckbox from "components/FormCheckbox";
 export default function AgendaPage() {
   const initialState = {
     one: "hello",
     two: "world"
   };
-  function onChange(state) {
+  function onChange(state, setState) {
     console.log("form", state);
+    if (state["check_3"]) {
+      const newState = { ...state };
+      delete newState["check_1"];
+      delete newState["check_2"];
+      setState(newState);
+    }
   }
   function standaloneOnChange(e) {
     console.log("standalone", e.target.value);
@@ -29,6 +36,9 @@ export default function AgendaPage() {
         <Form onChange={onChange} data={initialState}>
           <FormInput name="one" validate="number" />
           <FormInput name="two" validate="number" />
+          <FormCheckbox name="check_1" />
+          <FormCheckbox name="check_2" />
+          <FormCheckbox name="check_3" />
           <button type="reset">Reset</button>
         </Form>
       </div>

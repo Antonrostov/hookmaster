@@ -2,13 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import { FormContext } from "./FormUtils";
 export default function Form(props) {
   const isInitialMount = useRef(true);
+  const stopRun = useRef(false);
   const [state, setState] = useState(props.data || {});
   const context = {
     data: state,
     onChange: onChange
   };
-  function onChange(e) {
-    const { name, value } = e.target;
+  function onChange({ name, value }) {
     setState({
       ...state,
       [name]: value
@@ -20,15 +20,18 @@ export default function Form(props) {
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
+    } else if (stopRun.current) {
+      stopRun.current = false;
     } else {
-      props.onChange(state);
+      props.onChange(state, newState => {
+        stopRun.current = true;
+        setState(newState);
+      });
     }
-  });
+  }, [state]);
   return (
     <FormContext.Provider value={context}>
-      <form onChange={onChange} onReset={onReset}>
-        {props.children}
-      </form>
+      <form onReset={onReset}>{props.children}</form>
     </FormContext.Provider>
   );
 }
