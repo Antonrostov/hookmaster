@@ -22,6 +22,7 @@ export default function Form(props) {
       isInitialMount.current = false;
     } else if (stopRun.current) {
       stopRun.current = false;
+      props.onChange(state, () => {});
     } else {
       props.onChange(state, newState => {
         stopRun.current = true;
