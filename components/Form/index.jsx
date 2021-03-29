@@ -2,34 +2,23 @@ import React, { useState, useEffect, useRef } from "react";
 import { FormContext } from "./FormUtils";
 export default function Form(props) {
   const isInitialMount = useRef(true);
-  const stopRun = useRef(false);
   const [state, setState] = useState(props.data || {});
   const context = {
     data: state,
     onChange: onChange
   };
-  function onChange({ name, value }) {
-    setState({
-      ...state,
-      [name]: value
-    });
+  async function onChange({ name, value }) {
+    const newState = { ...state, [name]: value };
+    const alteredState = await props.onChange(state, newState);
+    if (typeof alteredState === "undefined") {
+      setState(newState);
+    } else {
+      setState(alteredState);
+    }
   }
   function onReset() {
     setState({});
   }
-  useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-    } else if (stopRun.current) {
-      stopRun.current = false;
-      props.onChange(state, () => {});
-    } else {
-      props.onChange(state, newState => {
-        stopRun.current = true;
-        setState(newState);
-      });
-    }
-  }, [state]);
   return (
     <FormContext.Provider value={context}>
       <form onReset={onReset}>{props.children}</form>
