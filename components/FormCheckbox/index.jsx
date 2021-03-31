@@ -7,8 +7,7 @@ export default function FormCheckbox(props) {
   });
   function _onSetValue(e) {
     e.preventDefault();
-    const value = "boo";
-    onSetValue(value);
+    onSetValue(!value.checked);
   }
   return (
     <div>
