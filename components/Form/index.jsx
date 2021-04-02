@@ -16,12 +16,18 @@ export default function Form(props) {
       setState(alteredState);
     }
   }
+  function onSubmit(e) {
+    e.preventDefault();
+    props.onSubmit(state);
+  }
   function onReset() {
     setState({});
   }
   return (
     <FormContext.Provider value={context}>
-      <form onReset={onReset}>{props.children}</form>
+      <form onReset={onReset} onSubmit={onSubmit}>
+        {props.children}
+      </form>
     </FormContext.Provider>
   );
 }
