@@ -1,14 +1,25 @@
+import FormInput from "components/FormInput";
+import FormCheckbox from "components/FormCheckbox";
+import FormRadio from "components/FormRadio";
 export default {
   render(config, oldState, newState) {
-    if (!oldState["check_3"] && newState["check_3"]) {
-      delete newState["check_1"];
-      delete newState["check_2"];
-    } else if (
-      oldState["check_3"] &&
-      (newState["check_1"] || newState["check_2"])
-    ) {
-      delete newState["check_3"];
-    }
-    return newState;
+    const changedNodes = Object.keys(newState);
+    const state = config.runChanges({
+      oldState,
+      newState,
+      changedNodes
+    });
+    const components = (
+      <div>
+        <FormInput name="one" validate="number" />
+        <FormInput name="two" validate="number" />
+        <FormCheckbox name="check_1" />
+        <FormCheckbox name="check_2" />
+        <FormCheckbox name="check_3" />
+        <FormRadio id="radio_female" name="radio_1" value="female" />
+        <FormRadio id="radio_male" name="radio_1" value="male" />
+      </div>
+    );
+    return [state, components];
   }
 };
