@@ -6,11 +6,14 @@ function getValue(e, type) {
     return e.target.value;
   }
 }
-function getInputValueProp(state, type) {
+function getInputValueProp(state, type, label) {
   let prop, inputState;
-  if (type === "checkbox" || type === "radio") {
+  if (type === "checkbox") {
     prop = "checked";
     inputState = state || false;
+  } else if (type === "radio") {
+    prop = "checked";
+    inputState = state === label;
   } else {
     prop = "value";
     inputState = state || "";
@@ -65,7 +68,7 @@ export function useHandler(props, opts) {
       onSetValue(value) {
         onChange(setValue(value, opts.type));
       },
-      value: getInputValueProp(state, opts.type)
+      value: getInputValueProp(state, opts.type, opts.label)
     };
   } else {
     if (typeof props.name === "undefined") {
@@ -82,7 +85,7 @@ export function useHandler(props, opts) {
       onSetValue(value) {
         onChange(setValue(value, opts.type, { name: props.name }));
       },
-      value: getInputValueProp(context.data[props.name], opts.type)
+      value: getInputValueProp(context.data[props.name], opts.type, opts.label)
     };
   }
 }
