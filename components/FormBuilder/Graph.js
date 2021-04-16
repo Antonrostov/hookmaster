@@ -2,9 +2,10 @@ function Node(data) {
   this.data = data;
   this.out = new Map();
 }
-Node.prototype.render = function() {
+Node.prototype.render = function(oldState, newState) {
   const Component = this.data.component;
-  return <Component {...this.data.props} />;
+  const props = this.data.getProps(oldState, newState);
+  return <Component {...props} />;
 };
 Node.prototype.to = function(node, condition) {
   this.out.set(node, condition);
@@ -34,7 +35,7 @@ Graph.prototype.runChanges = function({ oldState, newState, changedNodes }) {
   Object.keys(newState).forEach(name => {
     const nodes = this.nodes[name];
     nodes.forEach(node => {
-      components.push(node.render());
+      components.push(node.render(oldState, newState));
     });
   });
   return [newState, components];
