@@ -6,9 +6,11 @@ export default function FormRadio(props) {
     label: props.value
   });
   return (
-    <div>
+    <div style={{ margin: "20px 10px" }}>
       <input {...props} type="radio" onChange={onChange} {...value} />
-      <label htmlFor={props.id}>{props.value}</label>
+      <label style={{ marginLeft: 3 }} htmlFor={props.id}>
+        {props.value}
+      </label>
     </div>
   );
 }
