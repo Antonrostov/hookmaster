@@ -20,7 +20,7 @@ export default function Form(props) {
     props.onSubmit(state);
   }
   function onReset() {
-    setState({});
+    setState(props.data || {});
   }
   return (
     <FormContext.Provider value={context}>
