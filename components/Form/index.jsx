@@ -7,12 +7,13 @@ export default function Form(props) {
     onChange: onChange
   };
   async function onChange({ name, value }) {
+    const changes = { [name]: value };
     const newState = { ...state, [name]: value };
-    const alteredState = await props.onChange(state, newState);
-    if (typeof alteredState === "undefined") {
+    const alteredNewState = await props.onChange(state, newState, changes);
+    if (typeof alteredNewState === "undefined") {
       setState(newState);
     } else {
-      setState(alteredState);
+      setState(alteredNewState);
     }
   }
   function onSubmit(e) {
