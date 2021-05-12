@@ -1,20 +1,14 @@
 import { useState, useEffect } from "react";
 import Form from "components/Form";
 export default function FormBuilder(props) {
-  const [components, setComponents] = useState(
-    props.config.runChanges({
-      oldState: props.initialState,
-      newState: props.initialState,
-      changes: {}
-    })[1]
-  );
+  const [changeCount, setChangeCount] = useState(0);
   async function onChange(oldState, newState, changes) {
-    const [state, components] = props.config.runChanges({
+    const state = props.config.runChanges({
       oldState,
       newState,
       changes
     });
-    setComponents(components);
+    setChangeCount(changeCount + 1);
     return Promise.resolve(state);
   }
   function onSubmit(state) {
@@ -22,7 +16,7 @@ export default function FormBuilder(props) {
   }
   return (
     <Form onChange={onChange} onSubmit={onSubmit} data={props.initialState}>
-      {components}
+      {props.config.ui()}
       <button type="reset">Reset</button>
       <button type="submit">Submit</button>
     </Form>

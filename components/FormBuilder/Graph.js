@@ -1,17 +1,19 @@
 function Node(data) {
   this.data = data;
   this.out = new Map();
+  this.key = data.id || data.name;
 }
 Node.prototype.render = function(oldState, newState) {
   const Component = this.data.component;
   const props = this.data.getProps(oldState, newState);
-  return <Component key={props.id || props.name} {...props} />;
+  return <Component key={this.key} {...props} />;
 };
 Node.prototype.to = function(node, condition) {
   this.out.set(node, condition);
 };
 function Graph(items) {
   this.nodes = {};
+  this.components = {};
   items.forEach(data => {
     if (typeof this.nodes[data.name] === "undefined") {
       this.nodes[data.name] = [new Node(data)];
@@ -38,6 +40,10 @@ Graph.prototype.runChanges = function({ oldState, newState, changes }) {
       components.push(node.render(oldState, newState));
     });
   });
-  return [newState, components];
+  this.components = components;
+  return newState;
+};
+Graph.prototype.ui = function() {
+  return Object.values(this.components);
 };
 export default Graph;
