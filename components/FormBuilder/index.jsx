@@ -9,6 +9,7 @@ export default function FormBuilder(props) {
       changes
     });
     setChangeCount(changeCount + 1);
+    console.log(state);
     return Promise.resolve(state);
   }
   function onSubmit(state) {
