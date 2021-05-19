@@ -3,12 +3,28 @@ import GlanceItems from "components/GlanceItems";
 import FormBuilder from "components/FormBuilder";
 import FormInput from "components/FormInput";
 import getFormConfig, { getLargeConfig } from "./getFormConfig";
+import getConfig from "next/config";
 export default function AgendaPage() {
-  const config = getLargeConfig();
-  const initialState = {};
-  Object.keys(config.nodes).forEach(k => {
-    initialState[k] = "";
-  });
+  const { publicRuntimeConfig } = getConfig();
+  let config, initialState;
+  if (publicRuntimeConfig.highload) {
+    initialState = {};
+    config = getLargeConfig();
+    Object.keys(config.nodes).forEach(k => {
+      initialState[k] = "";
+    });
+  } else {
+    initialState = {
+      one: "hello",
+      two: "world",
+      check_1: false,
+      check_2: false,
+      check_3: true,
+      radio_1: "Singaporean / PR",
+      identity_input: ""
+    };
+    config = getFormConfig();
+  }
   const newInitialState = config.runChanges({
     oldState: {},
     newState: initialState,
