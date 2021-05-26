@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 function getValue(e, type) {
   if (type === "checkbox") {
     return e.target.checked;
@@ -54,10 +54,14 @@ export function useValidator(validate, { value }) {
   }
 }
 export function useHandler(props, opts) {
+  const [pristine, setPristine] = useState(true);
   const context = useContext(FormContext);
   if (typeof context === "undefined") {
     const [state, setState] = useState(opts.initialState);
     function onChange(e) {
+      if (pristine) {
+        setPristine(false);
+      }
       setState(getValue(e, opts.type));
       if (typeof props.onChange === "function") {
         props.onChange(e);
@@ -68,13 +72,17 @@ export function useHandler(props, opts) {
       onSetValue(value) {
         onChange(setValue(value, opts.type));
       },
-      value: getInputValueProp(state, opts.type, opts.label)
+      value: getInputValueProp(state, opts.type, opts.label),
+      pristine
     };
   } else {
     if (typeof props.name === "undefined") {
       throw new Error("You must supply a 'name' prop if you are using <Form>");
     }
     function onChange(e) {
+      if (pristine) {
+        setPristine(false);
+      }
       context.onChange({
         name: props.name,
         value: getValue(e, opts.type)
@@ -85,7 +93,8 @@ export function useHandler(props, opts) {
       onSetValue(value) {
         onChange(setValue(value, opts.type, { name: props.name }));
       },
-      value: getInputValueProp(context.data[props.name], opts.type, opts.label)
+      value: getInputValueProp(context.data[props.name], opts.type, opts.label),
+      pristine
     };
   }
 }
