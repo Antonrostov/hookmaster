@@ -11,7 +11,11 @@ export default function FormInput(props) {
   function _onSetValue(e) {
     e.preventDefault();
     const value = "boo";
-    onSetValue(value);
+    onSetValue({
+      target: {
+        value
+      }
+    });
   }
   return (
     <div style={{ margin: "20px 10px" }}>
@@ -21,7 +25,7 @@ export default function FormInput(props) {
         style={{ marginTop: 5 }}
         {...other}
         onChange={onChange}
-        {...value}
+        value={value}
       />
       <button onClick={_onSetValue}>Change value</button>
       <small style={{ color: "red", marginLeft: 10 }}>
