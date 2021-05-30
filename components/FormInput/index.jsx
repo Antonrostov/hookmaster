@@ -3,10 +3,11 @@ export default function FormInput(props) {
   const { onChange, onSetValue, value, pristine } = useHandler(props, {
     initialState: ""
   });
-  let error;
-  if (!pristine) {
-    error = useValidator(props.validate, value);
-  }
+  const error = useValidator({
+    name: props.name,
+    validate: props.validate,
+    value
+  });
   const { validate, ...other } = props;
   function _onSetValue(e) {
     e.preventDefault();
@@ -29,7 +30,7 @@ export default function FormInput(props) {
       />
       <button onClick={_onSetValue}>Change value</button>
       <small style={{ color: "red", marginLeft: 10 }}>
-        {error || <label>{error}</label>}
+        {!pristine && error && <label>{error}</label>}
       </small>
     </div>
   );

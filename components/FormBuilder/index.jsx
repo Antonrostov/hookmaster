@@ -11,8 +11,9 @@ export default function FormBuilder(props) {
     setChangeCount(changeCount + 1);
     return Promise.resolve(state);
   }
-  function onSubmit(state) {
+  function onSubmit(state, errors) {
     console.log("form", state);
+    console.log("errors", errors);
   }
   return (
     <Form onChange={onChange} onSubmit={onSubmit} data={props.initialState}>
