@@ -27,7 +27,7 @@ export function useValidator({ name, validate, value }) {
     }
   }
 }
-export function useHandler(props, opts) {
+export function useHandler(opts) {
   const [pristine, setPristine] = useState(true);
   const context = useContext(FormContext);
   if (typeof context === "undefined") {
@@ -40,8 +40,8 @@ export function useHandler(props, opts) {
         ? opts.getElementValue(e)
         : e.target.value;
       setState(state);
-      if (typeof props.onChange === "function") {
-        props.onChange(e);
+      if (typeof opts.onChange === "function") {
+        opts.onChange(e);
       }
     }
     return {
@@ -53,7 +53,7 @@ export function useHandler(props, opts) {
       pristine
     };
   } else {
-    if (typeof props.name === "undefined") {
+    if (typeof opts.name === "undefined") {
       throw new Error("You must supply a 'name' prop if you are using <Form>");
     }
     function onChange(e) {
@@ -64,11 +64,11 @@ export function useHandler(props, opts) {
         ? opts.getElementValue(e)
         : e.target.value;
       context.onChange({
-        name: props.name,
+        name: opts.name,
         value: state
       });
     }
-    const state = context.data[props.name];
+    const state = context.data[opts.name] || opts.initialState;
     return {
       onChange,
       onSetValue(e) {
