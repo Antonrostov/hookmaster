@@ -3,36 +3,60 @@ import { FormContext } from "./FormUtils";
 export default function Form(props) {
   const [state, setState] = useState(props.data || {});
   const [errors, setErrors] = useState({});
+  const [dirties, setDirties] = useState({});
   const context = {
     data: state,
+    dirties,
     errors,
     onChange: onChange,
     setError: setError,
-    removeError: removeError
+    removeError: removeError,
+    setDirty: setDirty
   };
+  function setDirty(name) {
+    setDirties(prevState => ({
+      ...prevState,
+      [name]: true
+    }));
+  }
   function removeError({ name }) {
-    delete errors[name];
-    setErrors(errors);
+    setErrors(prevState => {
+      delete prevState[name];
+      return {
+        ...prevState
+      };
+    });
   }
   function setError({ name, error }) {
-    setErrors({
-      ...errors,
+    setErrors(prevState => ({
+      ...prevState,
       [name]: error
-    });
+    }));
   }
   async function onChange({ name, value }) {
     const changes = { [name]: value };
     const newState = { ...state, [name]: value };
     const alteredNewState = await props.onChange(state, newState, changes);
     if (typeof alteredNewState === "undefined") {
-      setState(newState);
+      setState(prevState => ({
+        ...prevState,
+        ...changes
+      }));
     } else {
       setState(alteredNewState);
     }
   }
   function onSubmit(e) {
     e.preventDefault();
+    setDirties(markAllDirty(state));
     props.onSubmit(state, errors);
+  }
+  function markAllDirty(state) {
+    const names = Object.keys(state);
+    return names.reduce((acc, name) => {
+      acc[name] = true;
+      return acc;
+    }, {});
   }
   function onReset() {
     setState(props.data || {});
