@@ -2,6 +2,7 @@ import EditableList from "components/EditableList";
 import GlanceItems from "components/GlanceItems";
 import FormBuilder from "components/FormBuilder";
 import FormInput from "components/FormInput";
+import FormSelect from "components/FormSelect";
 import getFormConfig, { getLargeConfig } from "./getFormConfig";
 import getConfig from "next/config";
 export default function AgendaPage() {
@@ -30,9 +31,6 @@ export default function AgendaPage() {
     newState: initialState,
     changes: initialState
   });
-  function standaloneOnChange(e) {
-    console.log("standalone", e.target.value);
-  }
   function customValidate(value) {
     if (value !== "boo") {
       return "Value is not boo";
@@ -50,7 +48,19 @@ export default function AgendaPage() {
       </div>
       <div>
         <h2>Standalone</h2>
-        <FormInput onChange={standaloneOnChange} validate={customValidate} />
+        <FormInput
+          onChange={e => console.log("standalone", e.target.value)}
+          validate={customValidate}
+        />
+        <FormSelect
+          value={{ value: "strawberry", label: "Strawberry" }}
+          onChange={(...args) => console.log("standalone select", args)}
+          options={[
+            { value: "chocolate", label: "Chocolate" },
+            { value: "strawberry", label: "Strawberry" },
+            { value: "vanilla", label: "Vanilla" }
+          ]}
+        />
       </div>
     </div>
   );
