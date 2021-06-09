@@ -16,6 +16,7 @@ export default function AgendaPage() {
     });
   } else {
     initialState = {
+      select: { value: "chocolate", label: "Chocolate" },
       one: "hello",
       two: "world",
       check_1: false,
