@@ -1,6 +1,6 @@
 import { useHandler, useValidator } from "../Form/FormUtils";
 export default function FormInput(props) {
-  const { onChange, onSetValue, value, pristine } = useHandler({
+  const { onChange, setValue, value, pristine } = useHandler({
     name: props.name,
     onChange: props.onChange,
     initialState: props.value
@@ -11,10 +11,10 @@ export default function FormInput(props) {
     value
   });
   const { validate, ...other } = props;
-  function _onSetValue(e) {
+  function _setValue(e) {
     e.preventDefault();
     const value = "boo";
-    onSetValue({
+    setValue({
       target: {
         value
       }
@@ -30,7 +30,7 @@ export default function FormInput(props) {
         onChange={onChange}
         value={value}
       />
-      <button onClick={_onSetValue}>Change value</button>
+      <button onClick={_setValue}>Change value</button>
       <small style={{ color: "red", marginLeft: 10 }}>
         {!pristine && error && <label>{error}</label>}
       </small>

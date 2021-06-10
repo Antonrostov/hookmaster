@@ -53,7 +53,7 @@ export function useHandler(opts) {
     }
     return {
       onChange,
-      onSetValue(e) {
+      setValue(e) {
         onChange(e);
       },
       value: opts.transformValue ? opts.transformValue(state) : state,
@@ -89,7 +89,7 @@ export function useHandler(opts) {
     }, [state]);
     return {
       onChange,
-      onSetValue(e) {
+      setValue(e) {
         onChange(e, name);
       },
       value: opts.transformValue ? opts.transformValue(state) : state,
