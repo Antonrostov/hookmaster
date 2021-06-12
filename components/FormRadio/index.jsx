@@ -1,6 +1,6 @@
 import { useHandler } from "../Form/FormUtils";
 export default function FormRadio(props) {
-  const { onChange, value } = useHandler({
+  const { setValue, value } = useHandler({
     name: props.name,
     onChange: props.onChange,
     initialState: props.value,
@@ -8,6 +8,9 @@ export default function FormRadio(props) {
       return value === props.value;
     }
   });
+  function onChange() {
+    setValue(props.value);
+  }
   return (
     <div style={{ margin: "20px 10px" }}>
       <input {...props} type="radio" onChange={onChange} checked={value} />
