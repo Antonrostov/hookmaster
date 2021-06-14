@@ -66,7 +66,7 @@ export function useHandler(opts) {
         if (pristine) {
           context.setDirty(opts.name);
         }
-        context.onChange({
+        context.setField({
           name: opts.name,
           value: state
         });
@@ -74,7 +74,7 @@ export function useHandler(opts) {
     }, [state]);
     return {
       setValue(state) {
-        context.onChange({
+        context.setField({
           name: opts.name,
           value: state
         });
