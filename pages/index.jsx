@@ -18,7 +18,7 @@ export default function AgendaPage() {
     initialState = {
       fullName: {
         selected: { value: "Dr", label: "Dr" },
-        input: "Bob"
+        input: "1"
       },
       select: { value: "chocolate", label: "Chocolate" },
       one: "hello",
