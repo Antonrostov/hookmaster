@@ -66,7 +66,7 @@ export default function getFormConfig() {
           { value: "Dr", label: "Dr" }
         ];
         function validate(value) {
-          if (isNaN(value.input)) {
+          if (isNaN(value)) {
             return null;
           } else {
             return "Is that a proper name?";

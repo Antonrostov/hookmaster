@@ -1,8 +1,10 @@
 import { useHandler } from "../Form/FormUtils";
 export default function FormCheckbox(props) {
+  const { name, initialState, store } = props;
   const { setValue, value } = useHandler({
-    name: props.name,
-    initialState: props.value
+    name,
+    initialState,
+    store
   });
   function onChange(e) {
     setValue(e.target.checked);
