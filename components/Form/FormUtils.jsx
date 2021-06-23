@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
+import { useEffectOnMount } from "components/utils";
 export const FormContext = React.createContext();
 export function useStore(data) {
   const [state, setState] = useState(data || {});
@@ -95,22 +96,17 @@ function useStoreStrategy(opts) {
   if (typeof name === "undefined") {
     throw new Error("You must supply a 'name' prop if you are using <Form>");
   }
-  const isInitialMount = useRef(true);
   const pristine = !store.dirties[name];
   const state =
     typeof store.data[name] === "undefined" ? initialState : store.data[name];
-  useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-    } else {
-      if (pristine) {
-        store.setDirty(opts.name);
-      }
-      store.setField({
-        name: opts.name,
-        value: state
-      });
+  useEffectOnMount(() => {
+    if (pristine) {
+      store.setDirty(opts.name);
     }
+    store.setField({
+      name: opts.name,
+      value: state
+    });
   }, [state]);
   return {
     setValue(state) {
@@ -127,14 +123,9 @@ function useLocalStateStrategy(opts) {
   const { transformValue, initialState } = opts;
   const [pristine, setPristine] = useState(true);
   const [state, setState] = useState(initialState);
-  const isInitialMount = useRef(true);
-  useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-    } else {
-      if (pristine) {
-        setPristine(false);
-      }
+  useEffectOnMount(() => {
+    if (pristine) {
+      setPristine(false);
     }
   }, [state]);
   return {
