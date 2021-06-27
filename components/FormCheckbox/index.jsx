@@ -1,4 +1,5 @@
 import { useHandler } from "../Form/FormUtils";
+import FormUI from "components/FormUI";
 export default function FormCheckbox(props) {
   const { name, initialState, store } = props;
   const { setValue, value } = useHandler({
@@ -14,9 +15,9 @@ export default function FormCheckbox(props) {
     setValue(!value);
   }
   return (
-    <div style={{ margin: "10px 20px" }}>
+    <FormUI style={{ margin: "10px 20px" }} name={name}>
       <input {...props} onChange={onChange} type="checkbox" checked={value} />
       <button onClick={_setValue}>Change value</button>
-    </div>
+    </FormUI>
   );
 }

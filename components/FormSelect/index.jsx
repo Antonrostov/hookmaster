@@ -1,5 +1,6 @@
 import { useHandler } from "../Form/FormUtils";
 import Select from "react-select";
+import FormUI from "components/FormUI";
 export default function FormSelect(props) {
   const { setValue, value } = useHandler({
     name: props.name,
@@ -12,5 +13,9 @@ export default function FormSelect(props) {
       props.onChange(selected);
     }
   }
-  return <Select value={value} onChange={onChange} options={props.options} />;
+  return (
+    <FormUI name={props.name}>
+      <Select value={value} onChange={onChange} options={props.options} />
+    </FormUI>
+  );
 }
