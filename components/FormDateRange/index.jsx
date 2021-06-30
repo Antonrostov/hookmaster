@@ -1,19 +1,29 @@
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import "react-day-picker/lib/style.css";
-import { useState, useRef } from "react";
-export default function FormDateRange() {
+import { useRef } from "react";
+import { useHandler } from "components/Form/FormUtils";
+export default function FormDateRange(props) {
   const toEl = useRef();
-  const [from, setFrom] = useState();
-  const [to, setTo] = useState();
+  const { setValue, value } = useHandler({
+    name: props.name,
+    initialState: {}
+  });
+  const { from, to } = value;
   const modifiers = { start: from, end: to };
   function focusTo() {
     toEl.current.getInput().focus();
   }
   function handleFromChange(from) {
-    setFrom(from);
+    setValue({
+      ...value,
+      from
+    });
   }
   function handleToChange(to) {
-    setTo(to);
+    setValue({
+      ...value,
+      to
+    });
   }
   return (
     <div className="InputFromTo">
