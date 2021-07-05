@@ -64,49 +64,41 @@ export function useStore(data) {
   }
   return store;
 }
-export function useValidator({ name, validate, value }) {
-  const context = useContext(FormContext);
-  const error = getError(validate, value);
-  useEffect(() => {
-    if (typeof context !== "undefined") {
-      if (error !== null) {
-        context.setError({ name, error });
-      } else {
-        context.removeError({ name });
-      }
-    }
-  }, [value]);
-  return error;
-  function getError(validate, value) {
-    if (typeof validate === "function") {
-      return validate(value);
-    } else if (validate === "number") {
-      if (isNaN(value)) {
-        return "Not a number";
-      } else {
-        return null;
-      }
+function getError(validate, value) {
+  if (typeof validate === "function") {
+    return validate(value);
+  } else if (validate === "number") {
+    if (isNaN(value)) {
+      return "Not a number";
     } else {
       return null;
     }
+  } else {
+    return null;
   }
 }
 function useStoreStrategy(opts) {
-  const { name, store, initialState, transformValue } = opts;
+  const { name, store, initialState, transformValue, validate } = opts;
   if (typeof name === "undefined") {
     throw new Error("You must supply a 'name' prop if you are using <Form>");
   }
   const pristine = !store.dirties[name];
   const state =
     typeof store.data[name] === "undefined" ? initialState : store.data[name];
+  const error = getError(validate, state);
   useEffectOnMount(() => {
     if (pristine) {
-      store.setDirty(opts.name);
+      store.setDirty(name);
     }
     store.setField({
-      name: opts.name,
+      name,
       value: state
     });
+    if (error !== null) {
+      store.setError({ name, error });
+    } else {
+      store.removeError({ name });
+    }
   }, [state]);
   return {
     setValue(state) {
@@ -116,24 +108,29 @@ function useStoreStrategy(opts) {
       });
     },
     value: transformValue ? transformValue(state) : state,
-    pristine
+    pristine,
+    error
   };
 }
 function useLocalStateStrategy(opts) {
-  const { transformValue, initialState } = opts;
+  const { transformValue, initialState, validate } = opts;
   const [pristine, setPristine] = useState(true);
+  const [error, setError] = useState(null);
   const [state, setState] = useState(initialState);
   useEffectOnMount(() => {
     if (pristine) {
       setPristine(false);
     }
+    const error = getError(validate, state);
+    setError(error);
   }, [state]);
   return {
     setValue(state) {
       setState(state);
     },
     value: transformValue ? transformValue(state) : state,
-    pristine
+    pristine,
+    error
   };
 }
 export function useFormState(opts) {
