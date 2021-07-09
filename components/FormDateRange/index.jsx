@@ -3,10 +3,11 @@ import "react-day-picker/lib/style.css";
 import { useRef } from "react";
 import { useFormState } from "components/Form/FormUtils";
 export default function FormDateRange(props) {
+  const { initialState = {}, name } = props;
   const toEl = useRef();
   const { setValue, value } = useFormState({
-    name: props.name,
-    initialState: {}
+    name,
+    initialState
   });
   const { from, to } = value;
   const modifiers = { start: from, end: to };

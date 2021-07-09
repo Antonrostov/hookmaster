@@ -2,10 +2,11 @@ import { useFormState } from "../Form/FormUtils";
 import Select from "react-select";
 import FormUI from "components/FormUI";
 export default function FormSelect(props) {
+  const { initialState, name, store, ...other } = props;
   const { setValue, value } = useFormState({
-    name: props.name,
-    initialState: props.value,
-    store: props.store
+    name,
+    initialState,
+    store
   });
   function onChange(selected) {
     setValue(selected);
@@ -15,7 +16,12 @@ export default function FormSelect(props) {
   }
   return (
     <FormUI name={props.name}>
-      <Select value={value} onChange={onChange} options={props.options} />
+      <Select
+        value={value}
+        onChange={onChange}
+        options={props.options}
+        {...other}
+      />
     </FormUI>
   );
 }
