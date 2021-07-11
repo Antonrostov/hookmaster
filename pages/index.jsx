@@ -55,6 +55,7 @@ export default function AgendaPage() {
             console.log("Form submit errors", errors);
           }}
         >
+          <FormDateRange name="travel_date" />
           <FormSelect
             name="country"
             options={[
