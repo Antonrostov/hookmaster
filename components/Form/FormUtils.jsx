@@ -84,7 +84,7 @@ function useStoreStrategy(opts) {
     throw new Error("You must supply a 'name' prop if you are using <Form>");
   }
   const pristine = !store.dirties[name];
-  if (isInitialMount.current && typeof initialState !== "undefined") {
+  if (isInitialMount.current) {
     store.data[name] = initialState;
   }
   const state = store.data[name];
@@ -117,6 +117,9 @@ function useStoreStrategy(opts) {
 }
 function useLocalStateStrategy(opts) {
   const { initialState, validate } = opts;
+  if (typeof initialState === "undefined") {
+    throw new Error("initialState must be defined to something!");
+  }
   const [pristine, setPristine] = useState(true);
   const [error, setError] = useState(null);
   const [state, setState] = useState(initialState);
