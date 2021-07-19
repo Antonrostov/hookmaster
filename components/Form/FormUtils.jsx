@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { useEffectOnMount } from "components/utils";
 export const FormContext = React.createContext();
-export function useStore(data, interceptChange) {
+export function useStore(data, onChange) {
+  const changes = useRef({});
   const [state, setState] = useState(data || {});
   const [errors, setErrors] = useState({});
   const [dirties, setDirties] = useState({});
@@ -16,6 +17,11 @@ export function useStore(data, interceptChange) {
     resetData: resetData,
     setAllDirty: setAllDirty
   };
+  useEffectOnMount(() => {
+    if (typeof onChange === "function") {
+      onChange(state, changes.current);
+    }
+  }, [state]);
   function setAllDirty() {
     const names = Object.keys(state);
     const dirties = names.reduce((acc, name) => {
@@ -47,19 +53,11 @@ export function useStore(data, interceptChange) {
   function resetData(data) {
     setState(data || {});
   }
-  async function setField({ name, value }) {
-    const changes = { [name]: value };
-    const newState = { ...state, [name]: value };
-    if (typeof interceptChange === "function") {
-      const alteredNewState = await interceptChange(state, newState, changes);
-      if (typeof alteredNewState !== "undefined") {
-        setState(alteredNewState);
-        return;
-      }
-    }
+  function setField({ name, value }) {
+    changes.current = { [name]: value };
     setState(prevState => ({
       ...prevState,
-      ...changes
+      ...changes.current
     }));
   }
   return store;
