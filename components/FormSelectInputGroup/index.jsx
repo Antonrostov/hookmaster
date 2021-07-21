@@ -19,8 +19,7 @@ export default function FormSelectInputGroup(props) {
   });
   const store = useStore(initialState);
   const { setValue } = useFormState({
-    name,
-    initialState
+    name
   });
   useEffectOnMount(() => {
     setValue({

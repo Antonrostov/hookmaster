@@ -73,7 +73,7 @@ export default function AgendaPage() {
               { value: "Mdm", label: "Mdm" }
             ]}
             initialState={{
-              select: { value: "Mr", label: "Mr" },
+              select: { value: "Mrs", label: "Mrs" },
               input: "bob"
             }}
           />
