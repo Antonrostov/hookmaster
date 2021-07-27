@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import Form from "components/Form";
+import { render } from "react-testing-library";
 export default function FormBuilder(props) {
-  const [changeCount, setChangeCount] = useState(0);
+  const formConfig = props.config;
+  const [ui, rerender] = useState(formConfig.ui());
+  useEffect(() => {
+    formConfig.init();
+    render();
+  }, []);
   function onSubmit(state, errors) {
     console.log("form", state);
     console.log("errors", errors);
@@ -9,12 +15,13 @@ export default function FormBuilder(props) {
   return (
     <Form
       onChange={(newState, changes) => {
-        console.log(newState, changes);
+        formConfig.runChanges(changes);
+        rerender(formConfig.ui());
       }}
       onSubmit={onSubmit}
       data={props.initialState}
     >
-      {props.config.ui()}
+      {ui}
       <button type="reset">Reset</button>
       <button type="submit">Submit</button>
     </Form>

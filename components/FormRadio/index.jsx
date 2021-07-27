@@ -20,9 +20,6 @@ export default function FormRadio(props) {
         const id = `${props.name}_${index}`;
         return (
           <div key={id}>
-            <label style={{ marginLeft: 3 }} htmlFor={id}>
-              {option.label}
-            </label>
             <input
               id={id}
               type="radio"
@@ -31,6 +28,9 @@ export default function FormRadio(props) {
               value={option.value}
               {...other}
             />
+            <label style={{ marginLeft: 3 }} htmlFor={id}>
+              {option.label}
+            </label>
           </div>
         );
       })}

@@ -1,51 +1,69 @@
-function Node(data) {
-  this.data = data;
-  this.out = new Map();
-  this.key = data.id || data.name;
-  this.ui = null;
+class Node {
+  constructor(graph, opts) {
+    this.graph = graph;
+    this.name = opts.name;
+    this.render = opts.render;
+    this.props = opts.props;
+    this.out = new Map();
+  }
+  to(nodeName, callback) {
+    const node = this.graph.getNode(nodeName);
+    this.out.set(node, callback);
+    return this.graph;
+  }
 }
-Node.prototype.render = function(oldState, newState) {
-  const Component = this.data.component;
-  const props = this.data.getProps(oldState, newState);
-  this.ui = <Component key={this.key} {...props} />;
-};
-Node.prototype.to = function(node, condition) {
-  this.out.set(node, condition);
-};
-function Graph(items) {
-  this.nodes = {};
-  this.components = [];
-  items.forEach(data => {
-    if (typeof this.nodes[data.name] === "undefined") {
-      this.nodes[data.name] = [new Node(data)];
-    } else {
-      this.nodes[data.name].push(new Node(data));
-    }
-  });
-}
-Graph.prototype.getNode = function(name, index = 0) {
-  return this.nodes[name][index];
-};
-Graph.prototype.runChanges = function({ oldState, newState, changes }) {
-  Object.keys(changes).forEach(name => {
-    this.nodes[name].forEach(node => {
-      node.out.forEach((condition, outNode) => {
-        newState = condition(oldState, newState);
-        outNode.render(oldState, newState);
+class Graph {
+  constructor() {
+    this.nodes = new Map();
+  }
+  addNode(name, render, opts) {
+    const node = new Node(this, {
+      render,
+      name,
+      ...opts
+    });
+    this.nodes.set(name, node);
+    return this;
+  }
+  getNode(name) {
+    return this.nodes.get(name);
+  }
+  link(name) {
+    return this.getNode(name);
+  }
+  runChanges(changes) {
+    const nodes = Object.keys(changes);
+    nodes.forEach(name => {
+      const node = this.nodes.get(name);
+      node.out.forEach((callback, outNode) => {
+        const change = changes[name];
+        const result = callback(change);
+        outNode.props = result;
       });
-      node.render(oldState, newState);
     });
-  });
-  const components = [];
-  Object.keys(newState).forEach(name => {
-    this.nodes[name].forEach(node => {
-      components.push(node.ui);
+  }
+  init() {
+    const changes = {};
+    this.nodes.forEach((node, name) => {
+      if (node.props !== null) {
+        changes[name] = node.props.initialState;
+      }
     });
-  });
-  this.components = components;
-  return newState;
-};
-Graph.prototype.ui = function() {
-  return this.components;
-};
+    this.runChanges(changes);
+  }
+  ui() {
+    const children = [];
+    for (const [name, node] of this.nodes) {
+      if (node.props !== null) {
+        children.push(
+          node.render({
+            name,
+            ...node.props
+          })
+        );
+      }
+    }
+    return children;
+  }
+}
 export default Graph;
