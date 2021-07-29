@@ -2,23 +2,27 @@ class Node {
   constructor(graph, opts) {
     this.graph = graph;
     this.name = opts.name;
-    this.render = opts.render;
+    this.renderFunc = opts.renderFunc;
     this.props = opts.props;
     this.out = new Map();
+    this.ui = null;
   }
   to(nodeName, callback) {
     const node = this.graph.getNode(nodeName);
     this.out.set(node, callback);
     return this.graph;
   }
+  render() {
+    this.ui = this.renderFunc({ name: this.name, ...this.props });
+  }
 }
 class Graph {
   constructor() {
     this.nodes = new Map();
   }
-  addNode(name, render, opts) {
+  addNode(name, renderFunc, opts) {
     const node = new Node(this, {
-      render,
+      renderFunc,
       name,
       ...opts
     });
@@ -35,10 +39,14 @@ class Graph {
     const nodes = Object.keys(changes);
     nodes.forEach(name => {
       const node = this.nodes.get(name);
+      node.render();
       node.out.forEach((callback, outNode) => {
         const change = changes[name];
         const result = callback(change);
         outNode.props = result;
+        if (result !== null) {
+          outNode.render();
+        }
       });
     });
   }
@@ -53,14 +61,9 @@ class Graph {
   }
   ui() {
     const children = [];
-    for (const [name, node] of this.nodes) {
+    for (const [_, node] of this.nodes) {
       if (node.props !== null) {
-        children.push(
-          node.render({
-            name,
-            ...node.props
-          })
-        );
+        children.push(node.ui);
       }
     }
     return children;
