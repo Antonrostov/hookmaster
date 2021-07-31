@@ -1,3 +1,4 @@
+import { createRef } from "react";
 class Node {
   constructor(graph, opts) {
     this.graph = graph;
@@ -6,6 +7,7 @@ class Node {
     this.props = opts.props;
     this.out = new Map();
     this.ui = null;
+    this.ref = createRef();
   }
   to(nodeName, callback) {
     const node = this.graph.getNode(nodeName);
@@ -13,7 +15,7 @@ class Node {
     return this.graph;
   }
   render() {
-    this.ui = this.renderFunc({ name: this.name, ...this.props });
+    this.ui = this.renderFunc({ name: this.name, ...this.props }, this.ref);
   }
 }
 class Graph {
@@ -42,7 +44,7 @@ class Graph {
       node.render();
       node.out.forEach((callback, outNode) => {
         const change = changes[name];
-        const result = callback(change);
+        const result = callback(change, outNode.ref.current);
         outNode.props = result;
         if (result !== null) {
           outNode.render();
