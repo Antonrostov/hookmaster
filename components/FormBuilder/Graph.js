@@ -15,7 +15,11 @@ class Node {
     return this.graph;
   }
   render() {
-    this.ui = this.renderFunc({ name: this.name, ...this.props }, this.ref);
+    if (this.props !== null) {
+      this.ui = this.renderFunc({ name: this.name, ...this.props }, this.ref);
+    } else {
+      this.ui = null;
+    }
   }
 }
 class Graph {
@@ -46,9 +50,7 @@ class Graph {
         const change = changes[name];
         const result = callback(change, outNode.ref.current);
         outNode.props = result;
-        if (result !== null) {
-          outNode.render();
-        }
+        outNode.render();
       });
     });
   }
