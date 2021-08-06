@@ -67,7 +67,7 @@ graph
     props => {
       return <FormInput {...props} />;
     },
-    { props: null }
+    { props: {}, visible: false }
   )
   .addNode(
     "gender",
@@ -87,17 +87,17 @@ graph
     { props: { initialState: "f" } }
   )
   .link("country")
-  .to("visa_no", country => {
+  .to("visa_no", (country, toNode) => {
     if (country === "my") {
-      return {};
+      toNode.setVisible(true);
     } else {
-      return null;
+      toNode.setVisible(false);
     }
   })
   .link("id")
-  .to("id_no", id => {
+  .to("id_no", (id, toNode) => {
     if (id === "nric") {
-      return {
+      toNode.setProps({
         validate(value) {
           if (value[0] !== "S") {
             return "Enter a proper NRIC no!";
@@ -105,9 +105,9 @@ graph
             return null;
           }
         }
-      };
+      });
     } else if (id === "fin") {
-      return {
+      toNode.setProps({
         validate(value) {
           if (value[0] !== "F") {
             return "Enter a proper FIN no!";
@@ -115,16 +115,11 @@ graph
             return null;
           }
         }
-      };
-    } else {
-      return {};
+      });
     }
   })
   .link("id_no")
   .to("id_no_copy", (value, toNode) => {
-    if (toNode !== null) {
-      toNode.setValue(value);
-    }
-    return {};
+    toNode.call("setValue", value);
   });
 export default graph;

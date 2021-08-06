@@ -5,6 +5,7 @@ class Node {
     this.name = opts.name;
     this.renderFunc = opts.renderFunc;
     this.props = opts.props;
+    this.visible = typeof opts.visible !== "undefined" ? opts.visible : true;
     this.out = new Map();
     this.ui = null;
     this.ref = createRef();
@@ -19,6 +20,17 @@ class Node {
       this.ui = this.renderFunc({ name: this.name, ...this.props }, this.ref);
     } else {
       this.ui = null;
+    }
+  }
+  setProps(props) {
+    this.props = props;
+  }
+  setVisible(value) {
+    this.visible = value;
+  }
+  call(name, ...args) {
+    if (this.ref.current !== null) {
+      this.ref.current[name].apply(null, args);
     }
   }
 }
@@ -48,8 +60,7 @@ class Graph {
       node.render();
       node.out.forEach((callback, outNode) => {
         const change = changes[name];
-        const result = callback(change, outNode.ref.current);
-        outNode.props = result;
+        callback(change, outNode);
         outNode.render();
       });
     });
@@ -66,7 +77,7 @@ class Graph {
   ui() {
     const children = [];
     for (const [_, node] of this.nodes) {
-      if (node.props !== null) {
+      if (node.visible) {
         children.push(node.ui);
       }
     }
