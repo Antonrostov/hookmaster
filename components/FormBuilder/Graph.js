@@ -4,7 +4,7 @@ class Node {
     this.graph = graph;
     this.name = opts.name;
     this.renderFunc = opts.renderFunc;
-    this.props = opts.props;
+    this.props = opts.props || {};
     this.visible = typeof opts.visible !== "undefined" ? opts.visible : true;
     this.out = new Map();
     this.ui = null;
@@ -16,14 +16,14 @@ class Node {
     return this.graph;
   }
   render() {
-    if (this.props !== null) {
-      this.ui = this.renderFunc({ name: this.name, ...this.props }, this.ref);
-    } else {
-      this.ui = null;
-    }
+    this.ui = this.renderFunc(
+      { key: this.name, name: this.name, ...this.props },
+      this.ref
+    );
+    this.props = this.ui.props;
   }
-  setProps(props) {
-    this.props = props;
+  setProps(callback) {
+    this.props = callback(this.props);
   }
   setVisible(value) {
     this.visible = value;
@@ -68,7 +68,7 @@ class Graph {
   init() {
     const changes = {};
     this.nodes.forEach((node, name) => {
-      if (node.props !== null) {
+      if (node.visible) {
         changes[name] = node.props.initialState;
       }
     });
