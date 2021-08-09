@@ -10,7 +10,9 @@ export function useStore(data, onChange) {
     data: state,
     dirties,
     errors,
+    initField: initField,
     setField: setField,
+    cleanField: cleanField,
     setError: setError,
     removeError: removeError,
     setDirty: setDirty,
@@ -60,6 +62,16 @@ export function useStore(data, onChange) {
       ...changes.current
     }));
   }
+  function cleanField({ name }) {
+    changes.current = { [name]: undefined };
+    setState(prevState => {
+      delete prevState[name];
+      return prevState;
+    });
+  }
+  function initField({ name, value }) {
+    state[name] = value;
+  }
   return store;
 }
 function getError(validate, value) {
@@ -83,13 +95,18 @@ function useStoreStrategy(opts) {
   }
   const pristine = !store.dirties[name];
   if (isInitialMount.current) {
-    store.data[name] = initialState;
+    store.initField({ name, value: initialState });
   }
   const state = store.data[name];
   const error = getError(validate, state);
   if (isInitialMount.current && error !== null) {
     store.errors[name] = error;
   }
+  useEffect(() => {
+    return () => {
+      store.cleanField({ name });
+    };
+  }, []);
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
