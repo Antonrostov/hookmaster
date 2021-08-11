@@ -56,11 +56,13 @@ export function useStore(data, onChange) {
     setState(data || {});
   }
   function setField({ name, value }) {
-    changes.current = { [name]: value };
-    setState(prevState => ({
-      ...prevState,
-      ...changes.current
-    }));
+    setState(prevState => {
+      changes.current = { [name]: value };
+      return {
+        ...prevState,
+        ...changes.current
+      };
+    });
   }
   function cleanField({ name }) {
     changes.current = { [name]: undefined };
