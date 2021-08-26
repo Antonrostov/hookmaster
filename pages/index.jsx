@@ -30,7 +30,7 @@ export default function AgendaPage() {
         <h2>Standalone</h2>
         <FormDateRange />
         <FormInput
-          onChange={e => console.log("standalone", e.target.value)}
+          onChange={value => console.log("standalone", value)}
           validate={customValidate}
         />
         <FormSelect
