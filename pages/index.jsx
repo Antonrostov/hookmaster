@@ -30,6 +30,7 @@ export default function AgendaPage() {
         <h2>Standalone</h2>
         <FormDateRange />
         <FormInput
+          label="KrisFlyer Miles No."
           onChange={value => console.log("standalone", value)}
           validate={customValidate}
         />
