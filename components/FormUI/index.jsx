@@ -1,7 +1,7 @@
 import styles from "./FormUI.scss";
 import classNames from "classnames";
 export function Label({ label }) {
-  return label ? <label>{label}</label> : null;
+  return label ? <label className={styles.label}>{label}</label> : null;
 }
 export function Error({ pristine, error }) {
   const show = !pristine && error;
