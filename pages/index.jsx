@@ -79,6 +79,7 @@ export default function AgendaPage() {
             }}
           />
           <FormRadio
+            label="Select your gender"
             name="gender"
             options={[
               { value: "m", label: "Male" },
