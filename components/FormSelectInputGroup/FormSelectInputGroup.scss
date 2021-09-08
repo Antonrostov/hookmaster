@@ -1,0 +1,10 @@
+.container {
+  display: grid;
+  grid-template-areas: "a b";
+  grid-column-gap: 20px;
+  :global {
+    .formUI {
+      margin: 0;
+    }
+  }
+}
