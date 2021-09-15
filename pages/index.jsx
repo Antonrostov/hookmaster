@@ -1,5 +1,3 @@
-import EditableList from "components/EditableList";
-import GlanceItems from "components/GlanceItems";
 import FormBuilder from "components/FormBuilder";
 import FormInput from "components/FormInput";
 import formConfig from "components/FormBuilder/formConfig";
@@ -21,11 +19,6 @@ export default function AgendaPage() {
   }
   return (
     <Layout>
-      <div>
-        <h2>Simple Editable list</h2>
-        <GlanceItems />
-        <EditableList />
-      </div>
       <div>
         <h2>Standalone</h2>
         <FormDateRange label="Travel Dates" />
