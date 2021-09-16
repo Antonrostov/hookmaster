@@ -1,7 +1,7 @@
 @import "../Layout/variables.scss";
 @mixin formItemBorder {
   border: 1px solid rgba(189, 195, 199, 1);
-  border-radius: 4px;
+  border-radius: $border-radius;
 }
 @mixin formItemFocused {
   border-color: $maroon !important;
