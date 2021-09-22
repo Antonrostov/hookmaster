@@ -111,7 +111,10 @@ export default function Demo() {
           <H2>Form Builder</H2>
           <FormBuilder config={formConfig} />
         </div>
-        {}
+        <div className={styles.formBuilderLarge}>
+          <H2>Form Builder (Large)</H2>
+          <FormBuilder config={largeConfig} />
+        </div>
       </div>
     </Layout>
   );
