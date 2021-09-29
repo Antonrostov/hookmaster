@@ -11,6 +11,7 @@ import Button from "components/Button";
 import Form from "components/Form";
 import Layout from "components/Layout";
 import { H2 } from "components/Typography";
+import { FaGithub } from "react-icons/fa";
 import styles from "./Demo.scss";
 export default function Demo() {
   function customValidate(value) {
@@ -22,6 +23,13 @@ export default function Demo() {
   }
   return (
     <Layout>
+      <a
+        href="https:
+        target="_blank"
+        className={styles.github}
+      >
+        <FaGithub className={styles.icon} />
+      </a>
       <div className={styles.container}>
         <div className={styles.standalone}>
           <H2>Standalone Fields</H2>
