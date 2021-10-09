@@ -104,7 +104,7 @@ graph
   .addNode("check_1", (injectedProps, ref) => {
     return (
       <FormCheckbox
-        label="Agree not to smoke on our premises"
+        label="Checking this will uncheck #3"
         ref={ref}
         {...injectedProps}
       />
@@ -113,7 +113,7 @@ graph
   .addNode("check_2", (injectedProps, ref) => {
     return (
       <FormCheckbox
-        label="Agree to our terms and conditions"
+        label="Checking this will uncheck #3"
         ref={ref}
         {...injectedProps}
       />
@@ -122,7 +122,7 @@ graph
   .addNode("check_3", (injectedProps, ref) => {
     return (
       <FormCheckbox
-        label="Agree to our Privacy Policy"
+        label="Checking this will uncheck #1 and #2"
         ref={ref}
         {...injectedProps}
       />
