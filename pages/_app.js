@@ -1,4 +1,5 @@
 import React from "react";
+import Head from "next/head";
 import App, { Container } from "next/app";
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -12,6 +13,59 @@ class MyApp extends App {
     const { Component, pageProps } = this.props;
     return (
       <Container>
+        <Head>
+          {}
+          <meta charset="utf-8" />
+          <title>
+            Demo React Hooks - A demo on how to use react hooks for forms
+          </title>
+          {}
+          <meta
+            name="description"
+            content="Using context, state, effect, and custom hooks, you can build reusable state logic / across components and only UI concerns inside your components"
+          />
+          <meta
+            name="image"
+            content="https:
+          />
+          {}
+          <meta
+            itemprop="name"
+            content="Demo React Hooks - A demo on how to use react hooks for forms"
+          />
+          <meta
+            itemprop="description"
+            content="Using context, state, effect, and custom hooks, you can build reusable state / logic across components and only UI concerns inside your components"
+          />
+          <meta
+            itemprop="image"
+            content="https:
+          />
+          {}
+          <meta
+            name="og:title"
+            content="Demo React Hooks - A demo on how to use react hooks for forms"
+          />
+          <meta
+            name="og:description"
+            content="Using context, state, effect, and custom hooks, you can build reusable state logic / across components and only UI concerns inside your components"
+          />
+          <meta
+            name="og:image"
+            content="https:
+          />
+          <meta name="og:url" content="https:
+          <meta
+            name="og:site_name"
+            content="Demo React Hooks - A demo on how to use react hooks for forms"
+          />
+          <meta name="og:type" content="website" />
+          <meta
+            name="keywords"
+            content="react hooks reactjs javascript components"
+          />
+          <style>{`body { margin: 0 } `}</style>
+        </Head>
         <Component {...pageProps} />
       </Container>
     );
