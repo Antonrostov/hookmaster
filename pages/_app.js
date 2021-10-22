@@ -26,6 +26,7 @@ class MyApp extends App {
           />
           <meta
             name="image"
+            property="og:image"
             content="https:
           />
           {}
