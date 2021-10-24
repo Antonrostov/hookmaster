@@ -17,7 +17,6 @@ export default function FormBuilder(props) {
       data={props.initialState}
     >
       {ui}
-      <Button type="reset">Reset</Button>
       <Button btnType="primary" type="submit">
         Submit
       </Button>
