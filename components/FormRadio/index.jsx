@@ -29,6 +29,7 @@ export default function FormRadio(props) {
         return (
           <div className="radio" key={id}>
             <input
+              data-testid={"FormRadio"}
               id={id}
               type="radio"
               onChange={_onChange}
