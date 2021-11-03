@@ -23,7 +23,6 @@ function FormCheckbox(props, ref) {
           id={name}
           onChange={onChange}
           type="checkbox"
-          data-testid="FormCheckbox"
           checked={value}
           {...other}
         />

@@ -6,14 +6,16 @@ describe("<FormCheckbox />", () => {
   const initialState = true;
   const ref = React.createRef();
   beforeEach(() => {
+    const testId = "FormCheckbox";
     wrapper = render(
       <FormCheckbox
         ref={ref}
         name="terms_of_service"
         initialState={initialState}
+        data-testid={testId}
       />
     );
-    el = wrapper.getByTestId("FormCheckbox");
+    el = wrapper.getByTestId(testId);
   });
   afterEach(cleanup);
   it("renders with initial state", () => {
