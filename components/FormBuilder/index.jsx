@@ -2,7 +2,8 @@ import Form from "components/Form";
 import Button from "components/Button";
 import { useGraph } from "components/FormBuilder/GraphUtils";
 export default function FormBuilder(props) {
-  const { ui, runChanges } = useGraph(props.config);
+  const { config, initialState, ...other } = props;
+  const { ui, runChanges } = useGraph(config);
   function onSubmit(state, errors) {
     console.log("form", state);
     console.log("errors", errors);
@@ -14,7 +15,8 @@ export default function FormBuilder(props) {
         runChanges(changes);
       }}
       onSubmit={onSubmit}
-      data={props.initialState}
+      data={initialState}
+      {...other}
     >
       {ui}
       <Button btnType="primary" type="submit">

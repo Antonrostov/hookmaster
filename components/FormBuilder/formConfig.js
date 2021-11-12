@@ -25,6 +25,7 @@ graph
         label="Select your country of origin"
         initialState={options[1]}
         options={options}
+        data-testid={injectedProps.name}
         {...injectedProps}
       />
     );
@@ -40,6 +41,7 @@ graph
         <FormRadio
           label="Select your Identification type"
           options={options}
+          data-testid={injectedProps.name}
           {...injectedProps}
         />
       );
@@ -49,12 +51,24 @@ graph
   .addNode(
     "visa_no",
     injectedProps => {
-      return <FormInput label="Enter your visa number" {...injectedProps} />;
+      return (
+        <FormInput
+          label="Enter your visa number"
+          data-testid={injectedProps.name}
+          {...injectedProps}
+        />
+      );
     },
     { visible: false }
   )
   .addNode("id_no", injectedProps => {
-    return <FormInput label="Enter your ID no." {...injectedProps} />;
+    return (
+      <FormInput
+        label="Enter your ID no."
+        data-testid={injectedProps.name}
+        {...injectedProps}
+      />
+    );
   })
   .addNode("id_no_copy", (injectedProps, ref) => {
     function validate(value) {
@@ -67,6 +81,7 @@ graph
       <FormInput
         label="(For example only) Copy of above"
         ref={ref}
+        data-testid={injectedProps.name}
         {...injectedProps}
         validate={validate}
       />
@@ -77,6 +92,7 @@ graph
       <FormInput
         label="(For example only) Copy of above"
         ref={ref}
+        data-testid={injectedProps.name}
         {...injectedProps}
       />
     );
@@ -106,6 +122,7 @@ graph
       <FormCheckbox
         label="Checking this will uncheck #3"
         ref={ref}
+        data-testid={injectedProps.name}
         {...injectedProps}
       />
     );
@@ -115,6 +132,7 @@ graph
       <FormCheckbox
         label="Checking this will uncheck #3"
         ref={ref}
+        data-testid={injectedProps.name}
         {...injectedProps}
       />
     );
@@ -124,6 +142,7 @@ graph
       <FormCheckbox
         label="Checking this will uncheck #1 and #2"
         ref={ref}
+        data-testid={injectedProps.name}
         {...injectedProps}
       />
     );
