@@ -16,7 +16,11 @@ describe("<FormSelect />", () => {
   const initialState = options[0];
   beforeEach(() => {
     wrapper = render(
-      <FormSelect name={name} initialState={initialState} options={options} />
+      <FormSelect
+        name={name}
+        initialState={initialState.value}
+        options={options}
+      />
     );
   });
   afterEach(cleanup);
