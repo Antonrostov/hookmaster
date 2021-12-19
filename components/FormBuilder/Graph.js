@@ -29,9 +29,7 @@ class Node {
     this.visible = value;
   }
   call(name, ...args) {
-    if (this.ref.current !== null) {
-      this.ref.current[name].apply(null, args);
-    }
+    this.ref.current[name].apply(null, args);
   }
 }
 class Graph {
@@ -69,10 +67,13 @@ class Graph {
     const changes = {};
     this.nodes.forEach((node, name) => {
       if (node.visible) {
-        changes[name] = node.props.initialState;
+        node.render();
+        if (typeof node.props.initialState !== "undefined") {
+          changes[name] = node.props.initialState;
+        }
       }
     });
-    this.runChanges(changes);
+    return changes;
   }
   ui() {
     const children = [];
