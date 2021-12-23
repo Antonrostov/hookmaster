@@ -14,9 +14,13 @@ describe("<FormBuilder />", () => {
   });
   afterEach(cleanup);
   describe("Initial state rendering", () => {
-    it("shows initial state", () => {
+    it("shows initial state with relationships executed", () => {
       const id_no = wrapper.getByTestId("id_no");
+      const id_no_copy = wrapper.getByTestId("id_no_copy");
+      const id_no_another_copy = wrapper.getByTestId("id_no_another_copy");
       expect(id_no.value).toEqual(defaultState.id_no);
+      expect(id_no_copy.value).toEqual(defaultState.id_no);
+      expect(id_no_another_copy.value).toEqual(defaultState.id_no);
     });
   });
   describe("Submitting without filling form", () => {
@@ -26,14 +30,12 @@ describe("<FormBuilder />", () => {
       expect(spy).toBeCalled();
       wrapper.getByText("Please select a valid to and from date");
       wrapper.getByText("Enter a proper NRIC no!");
-      wrapper.getByText("This is required!");
     });
     it("shows all form errors", () => {
       const button = wrapper.getByText("Submit");
       fireEvent.click(button);
       wrapper.getByText("Please select a valid to and from date");
       wrapper.getByText("Enter a proper NRIC no!");
-      wrapper.getByText("This is required!");
     });
   });
   describe("Conditional rendering", () => {
