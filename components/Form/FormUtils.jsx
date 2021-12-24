@@ -101,7 +101,7 @@ function useStoreStrategy(opts) {
   }
   const state = store.data[name];
   const error = getError(validate, state);
-  if (isInitialMount.current && error !== null) {
+  if (error !== null) {
     store.errors[name] = error;
   }
   useEffect(() => {
