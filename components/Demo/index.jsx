@@ -61,7 +61,7 @@ export default function Demo() {
           />
           <FormSelect
             label="Select your favorite dessert"
-            initialState={{ value: "strawberry", label: "Strawberry" }}
+            initialState="strawberry"
             onChange={value => console.log("standalone select", value)}
             options={[
               { value: "chocolate", label: "Chocolate" },
@@ -94,7 +94,7 @@ export default function Demo() {
                 { value: "my", label: "Malaysia" },
                 { value: "tw", label: "Taiwan" }
               ]}
-              initialState={{ value: "sg", label: "Singapore" }}
+              initialState="sg"
             />
             <FormSelect
               label="Destination"
@@ -104,7 +104,7 @@ export default function Demo() {
                 { value: "my", label: "Malaysia" },
                 { value: "tw", label: "Taiwan" }
               ]}
-              initialState={{ value: "tw", label: "Taiwan" }}
+              initialState="tw"
             />
             <FormSelectInputGroup
               name="full_name"
@@ -116,7 +116,7 @@ export default function Demo() {
                 { value: "Mdm", label: "Mdm" }
               ]}
               initialState={{
-                select: { value: "Mrs", label: "Mrs" },
+                select: "Mrs",
                 input: "Magnolia"
               }}
               validate={value => {
